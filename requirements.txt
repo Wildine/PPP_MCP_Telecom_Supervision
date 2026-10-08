@@ -1,0 +1,18 @@
+# Backend de collecte - PPP MCP Telecom Supervision (Groupe 3)
+
+pysnmp>=6.1.0         # SNMP GET/WALK - v6.x (asyncio) requis pour Python 3.12+
+                        # (l'ancien pysnmp<5.0 utilise le module "asyncore",
+                        # supprimé de la bibliothèque standard en Python 3.12)
+ncclient>=0.6.15      # NETCONF
+netmiko>=4.3.0        # CLI multi-vendeurs
+napalm>=5.0.0         # Optionnel, abstraction CLI plus poussée
+
+# Serveur MCP
+fastmcp>=3.0,<4.0     # FastMCP 3.x exigé par le cahier des charges
+
+# Tests
+pytest>=8.0.0
+
+# Remarque : nfdump et tshark ne sont PAS des paquets pip.
+# À installer via le gestionnaire de paquets du système :
+#   sudo apt install nfdump tshark

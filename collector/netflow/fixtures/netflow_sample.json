@@ -1,0 +1,51 @@
+{
+  "R1": {
+    "window": "last_5_minutes",
+    "top_talkers": [
+      {
+        "src_ip": "10.0.1.15",
+        "dst_ip": "10.0.2.20",
+        "protocol": "TCP",
+        "bytes": 15420331,
+        "packets": 10231
+      },
+      {
+        "src_ip": "10.0.1.22",
+        "dst_ip": "8.8.8.8",
+        "protocol": "UDP",
+        "bytes": 245012,
+        "packets": 512
+      },
+      {
+        "src_ip": "10.0.1.9",
+        "dst_ip": "10.0.3.5",
+        "protocol": "TCP",
+        "bytes": 98213,
+        "packets": 301
+      }
+    ],
+    "total_bytes": 15763556,
+    "total_flows": 87
+  },
+  "R2": {
+    "window": "last_5_minutes",
+    "top_talkers": [
+      {
+        "src_ip": "203.0.113.50",
+        "dst_ip": "10.0.2.20",
+        "protocol": "TCP",
+        "bytes": 3200000,
+        "packets": 80000
+      },
+      {
+        "src_ip": "10.0.2.15",
+        "dst_ip": "10.0.1.20",
+        "protocol": "TCP",
+        "bytes": 410000,
+        "packets": 600
+      }
+    ],
+    "total_bytes": 3700000,
+    "total_flows": 4200
+  }
+}

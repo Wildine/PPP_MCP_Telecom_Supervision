@@ -1,0 +1,11 @@
+{
+  "10.0.2.1": {"reached": true, "hops": [
+    {"hop": 1, "address": "10.0.1.1", "rtt_ms": 0.5},
+    {"hop": 2, "address": "10.0.2.1", "rtt_ms": 1.2}
+  ]},
+  "10.0.9.1": {"reached": false, "hops": [
+    {"hop": 1, "address": "10.0.1.1", "rtt_ms": 0.5},
+    {"hop": 2, "address": null, "rtt_ms": null},
+    {"hop": 3, "address": null, "rtt_ms": null}
+  ]}
+}

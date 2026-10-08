@@ -1,0 +1,3 @@
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+10.0.0.2          1   Full/DR         00:00:38    10.0.0.2        eth0:10.0.0.1
+10.0.0.3          1   2-Way/DROTHER   00:00:35    10.0.0.3        eth0:10.0.0.1

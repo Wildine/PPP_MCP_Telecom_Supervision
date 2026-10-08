@@ -1,0 +1,35 @@
+2026-10-07 22:09:46,355 - INFO - Outil get_bgp_peers appelé avec {'device_ip': 'R1'}
+2026-10-07 22:09:46,356 - INFO - Outil get_bgp_peers terminé : status=ok
+2026-10-07 22:09:46,371 - INFO - Outil ping_host appelé avec {'host': '10.0.1.1', 'count': 4}
+2026-10-07 22:09:46,372 - INFO - Outil ping_host terminé : status=ok
+2026-10-07 22:09:46,383 - INFO - Outil ping_host appelé avec {'host': '1.1.1.1; rm -rf /', 'count': 4}
+2026-10-07 22:09:46,383 - INFO - Outil ping_host terminé : status=error
+2026-10-07 22:09:46,397 - INFO - Outil detect_anomalies appelé avec {'device_ip': 'R1', 'window': 'last_5_minutes'}
+2026-10-07 22:09:46,400 - INFO - Outil detect_anomalies terminé : status=ok
+2026-10-07 22:09:46,413 - INFO - Outil get_device_status appelé avec {'name': 'r1'}
+2026-10-07 22:09:46,413 - INFO - Outil get_device_status terminé : status=found
+2026-10-07 22:09:46,424 - INFO - Outil get_device_status appelé avec {'name': 'ZZ9'}
+2026-10-07 22:09:46,425 - INFO - Outil get_device_status terminé : status=not_found
+2026-10-07 22:09:46,447 - INFO - Lecture de la Resource noc://topology
+2026-10-07 22:09:46,450 - INFO - Lecture de la Resource noc://runbook/bgp_flap
+2026-10-07 22:09:46,452 - INFO - Lecture de la Resource noc://runbooks
+2026-10-07 22:09:46,461 - INFO - Lecture de la Resource noc://runbook/../server
+2026-10-07 22:09:46,605 - INFO - Lecture de la Resource noc://runbook/server
+2026-10-07 22:09:46,662 - INFO - Lecture de la Resource noc://runbook/inconnu
+2026-10-07 22:09:46,746 - INFO - Outil capture_pcap appelé : device=R1 interface=eth0 durée=10 paquets=200
+2026-10-07 22:09:46,747 - INFO - capture_pcap refusée par l'utilisateur pour R1
+2026-10-07 22:09:46,762 - INFO - Outil capture_pcap appelé : device=R1 interface=eth0 durée=10 paquets=200
+2026-10-07 22:09:46,765 - INFO - Outil capture_pcap terminé : status=ok
+2026-10-07 22:09:46,781 - INFO - Outil capture_pcap appelé : device=R1 interface=eth0 durée=10 paquets=200
+2026-10-07 22:09:46,782 - WARNING - capture_pcap refusée : consentement impossible à obtenir (Elicitation not supported)
+2026-10-07 22:09:46,796 - INFO - Outil interpret_anomalies appelé : device=R1 window=last_5_minutes
+2026-10-07 22:09:46,814 - INFO - Outil interpret_anomalies appelé : device=R1 window=last_5_minutes
+2026-10-07 22:09:46,815 - WARNING - Sampling indisponible : Client does not support sampling
+2026-10-07 22:09:46,829 - INFO - Outil ping_host appelé avec {'host': '10.0.1.1', 'count': 4}
+2026-10-07 22:09:46,830 - INFO - Outil ping_host terminé : status=ok
+2026-10-07 22:09:46,856 - INFO - Outil correlate_alarms appelé avec {'window_seconds': 120, 'devices': None}
+2026-10-07 22:09:46,859 - INFO - Outil correlate_alarms terminé : status=ok
+2026-10-07 22:09:46,871 - INFO - Outil analyze_root_cause appelé avec {'incident_id': 'INC-ebbca8cf', 'window_seconds': 120}
+2026-10-07 22:09:46,874 - INFO - Outil analyze_root_cause terminé : status=ok
+2026-10-07 22:09:46,884 - INFO - Outil generate_incident_report appelé avec {'incident_id': 'INC-ebbca8cf', 'window_seconds': 120}
+2026-10-07 22:09:46,888 - INFO - Outil generate_incident_report terminé : status=ok

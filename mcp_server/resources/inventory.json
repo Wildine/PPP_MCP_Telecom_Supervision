@@ -1,0 +1,17 @@
+{
+  "_source": "Construit à partir des fixtures du collecteur (mode simulé). À remplacer par l'inventaire réel du laboratoire Containerlab.",
+  "devices": [
+    {
+      "name": "R1",
+      "type": "router",
+      "os": "FRRouting (FRR 9.x)",
+      "router_id": "10.0.0.1",
+      "asn": 65001
+    },
+    {
+      "name": "R2",
+      "type": "router",
+      "os": "FRRouting (FRR 9.x)"
+    }
+  ]
+}

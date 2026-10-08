@@ -1,0 +1,14 @@
+{
+  "_source": "Adresses relevées dans les fixtures du collecteur (mode simulé). Aucun masque ni préfixe n'est connu : à remplacer par le plan d'adressage réel du laboratoire.",
+  "addresses": [
+    { "ip": "10.0.0.1", "device": "R1", "role": "router-id" }
+  ],
+  "seen_unassigned": [
+    { "ip": "10.0.0.2", "seen_as": "voisin BGP (AS 65002) et OSPF de R1" },
+    { "ip": "10.0.0.3", "seen_as": "voisin OSPF de R1" },
+    { "ip": "10.0.0.6", "seen_as": "voisin BGP de R1 (AS 65003)" },
+    { "ip": "10.0.1.1", "seen_as": "cible de test ping/traceroute" },
+    { "ip": "10.0.2.1", "seen_as": "cible de test ping/traceroute" },
+    { "ip": "10.0.9.1", "seen_as": "cible de test ping/traceroute" }
+  ]
+}

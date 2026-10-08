@@ -1,0 +1,9 @@
+{
+  "R1": {
+    "GigabitEthernet0/0": {"if_admin_status": "up", "if_oper_status": "up", "in_octets": 152344123, "out_octets": 98213344, "in_errors": 0, "out_errors": 0},
+    "GigabitEthernet0/1": {"if_admin_status": "up", "if_oper_status": "down", "in_octets": 0, "out_octets": 0, "in_errors": 12, "out_errors": 3}
+  },
+  "R2": {
+    "GigabitEthernet0/0": {"if_admin_status": "up", "if_oper_status": "up", "in_octets": 87344122, "out_octets": 65213344, "in_errors": 0, "out_errors": 0}
+  }
+}

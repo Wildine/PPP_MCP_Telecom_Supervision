@@ -1,0 +1,20 @@
+{
+  "_source": "Construit à partir des fixtures du collecteur (mode simulé). Les liens réels viennent de lab/containerlab/topology.clab.yml, à reporter ici quand le laboratoire est prêt.",
+  "nodes": [
+    { "id": "R1", "type": "router" },
+    { "id": "R2", "type": "router" }
+  ],
+  "links": [],
+  "observed_adjacencies": {
+    "R1": {
+      "bgp": [
+        { "neighbor": "10.0.0.2", "remote_as": 65002, "state": "Established" },
+        { "neighbor": "10.0.0.6", "remote_as": 65003, "state": "Active (jamais établie)" }
+      ],
+      "ospf": [
+        { "neighbor_id": "10.0.0.2", "state": "Full/DR", "interface": "eth0" },
+        { "neighbor_id": "10.0.0.3", "state": "2-Way/DROTHER", "interface": "eth0" }
+      ]
+    }
+  }
+}

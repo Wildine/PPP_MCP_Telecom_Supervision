@@ -1,0 +1,19 @@
+{
+  "R1": {
+    "GigabitEthernet0/0": {
+      "classes": [
+        {"class": "voice", "packets": 120000, "drops": 0, "drop_percent": 0.0},
+        {"class": "video", "packets": 85000, "drops": 120, "drop_percent": 0.14},
+        {"class": "best-effort", "packets": 900000, "drops": 4500, "drop_percent": 0.5}
+      ]
+    }
+  },
+  "R2": {
+    "GigabitEthernet0/0": {
+      "classes": [
+        {"class": "voice", "packets": 98000, "drops": 2300, "drop_percent": 2.35},
+        {"class": "best-effort", "packets": 400000, "drops": 52000, "drop_percent": 13.0}
+      ]
+    }
+  }
+}

@@ -1,0 +1,5 @@
+<189>Sep 14 10:02:11 R1 %BGP-5-ADJCHANGE: neighbor 10.0.0.6 Down BGP Notification sent
+<190>Sep 14 10:02:12 R1 %LINK-3-UPDOWN: Interface GigabitEthernet0/1, changed state to down
+<189>Sep 14 10:02:45 R1 %OSPF-5-ADJCHG: Process 1, Nbr 10.0.0.3 on eth0 from FULL to DOWN
+<190>Sep 14 10:05:03 R2 %LINK-3-UPDOWN: Interface GigabitEthernet0/0, changed state to up
+<189>Sep 14 10:05:04 R2 %BGP-5-ADJCHANGE: neighbor 10.0.0.1 Up

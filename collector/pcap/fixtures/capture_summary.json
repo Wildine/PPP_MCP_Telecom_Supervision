@@ -1,0 +1,9 @@
+{
+  "R1": {
+    "interface": "eth0",
+    "duration_seconds": 10,
+    "packet_count": 342,
+    "protocols": {"TCP": 210, "UDP": 98, "ICMP": 34},
+    "file_path": "/tmp/pcap_captures/R1_eth0_simulated.pcap"
+  }
+}

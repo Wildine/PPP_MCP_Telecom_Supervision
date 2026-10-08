@@ -1,0 +1,5 @@
+{
+  "10.0.1.1": {"packets_sent": 4, "packets_received": 4, "loss_percent": 0.0, "rtt_min_ms": 0.4, "rtt_avg_ms": 0.6, "rtt_max_ms": 0.9},
+  "10.0.2.1": {"packets_sent": 4, "packets_received": 2, "loss_percent": 50.0, "rtt_min_ms": 12.1, "rtt_avg_ms": 15.3, "rtt_max_ms": 18.4},
+  "10.0.9.1": {"packets_sent": 4, "packets_received": 0, "loss_percent": 100.0, "rtt_min_ms": null, "rtt_avg_ms": null, "rtt_max_ms": null}
+}
