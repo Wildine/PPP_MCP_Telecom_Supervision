@@ -26,18 +26,20 @@ _SIMULATED_FILTERS = {
 
 def _real_netconf_get(device_ip: str, filter_xml: str | None = None) -> str:
     """Exécute un <get-config> réel via ncclient (datastore running)."""
+    credentials = config.get_netconf_credentials()  # ConfigError si absents
+
     from ncclient import manager
 
     with manager.connect(
         host=device_ip,
         port=config.NETCONF_PORT,
-        username=config.NETCONF_USERNAME,
-        password=config.NETCONF_PASSWORD,
-        hostkey_verify=False,
+        username=credentials["username"],
+        password=credentials["password"],
+        hostkey_verify=config.NETCONF_HOSTKEY_VERIFY,
         timeout=config.NETCONF_TIMEOUT,
     ) as m:
         reply = m.get_config(source="running", filter=("subtree", filter_xml) if filter_xml else None)
-        return reply.data_xml
+        return reply.data_xml[: config.NETCONF_MAX_XML_CHARS]
 
 
 def netconf_get(

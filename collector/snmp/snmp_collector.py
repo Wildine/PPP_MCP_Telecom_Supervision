@@ -70,6 +70,7 @@ def _build_usm_user():
 
 def _real_snmp_get(device_ip: str, oid: str) -> Any:
     """Exécute un GET SNMPv3 (authPriv) réel via pysnmp."""
+    oid = _validate_oid(oid)
     usm_user = _build_usm_user()  # ConfigError si identifiants absents
 
     from pysnmp.hlapi import (
@@ -100,9 +101,15 @@ def _real_snmp_get(device_ip: str, oid: str) -> Any:
 
 
 def _real_snmp_walk(device_ip: str, oid: str) -> dict[str, str]:
-    """Exécute un WALK SNMP réel via pysnmp."""
+    """Exécute un WALK SNMPv3 (authPriv) réel via pysnmp.
+
+    Mêmes identifiants que snmp_get. L'OID est validé et le nombre
+    d'entrées est plafonné par SNMP_WALK_MAX_ENTRIES.
+    """
+    oid = _validate_oid(oid)
+    usm_user = _build_usm_user()  # ConfigError si identifiants absents
+
     from pysnmp.hlapi import (
-        CommunityData,
         ContextData,
         ObjectIdentity,
         ObjectType,
@@ -114,7 +121,7 @@ def _real_snmp_walk(device_ip: str, oid: str) -> dict[str, str]:
     results: dict[str, str] = {}
     for error_indication, error_status, error_index, var_binds in nextCmd(
         SnmpEngine(),
-        CommunityData(config.SNMP_COMMUNITY),
+        usm_user,
         UdpTransportTarget((device_ip, config.SNMP_PORT), timeout=config.SNMP_TIMEOUT, retries=config.SNMP_RETRIES),
         ContextData(),
         ObjectType(ObjectIdentity(oid)),
@@ -126,6 +133,9 @@ def _real_snmp_walk(device_ip: str, oid: str) -> dict[str, str]:
             raise RuntimeError(f"{error_status.prettyPrint()} at {error_index}")
         for name, value in var_binds:
             results[str(name)] = str(value)
+        if len(results) >= config.SNMP_WALK_MAX_ENTRIES:
+            logger.warning("snmp_walk tronqué à %d entrées pour %s", config.SNMP_WALK_MAX_ENTRIES, device_ip)
+            break
     return results
 
 

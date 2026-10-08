@@ -1,0 +1,81 @@
+name: mcp-noc-lab
+
+# Variables à exporter avant le déploiement (définies dans le .env de la racine) :
+#   SNMPV3_USER, SNMPV3_AUTH_KEY, SNMPV3_PRIV_KEY, CLI_USERNAME, CLI_PASSWORD
+topology:
+  nodes:
+    r1:
+      kind: linux
+      image: frrouting/frr:latest
+      binds:
+        - configs/r1/daemons:/etc/frr/daemons
+        - configs/r1/frr.conf:/etc/frr/frr.conf
+        - configs/r1/snmpd.conf.tpl:/etc/snmp/snmpd.conf.tpl
+      exec:
+        - sysctl -w net.ipv4.ip_forward=1
+        - apk add --no-cache net-snmp net-snmp-tools openssh
+        - sh -c "sed -e \"s|__SNMPV3_USER__|${SNMPV3_USER}|g\" -e \"s|__SNMPV3_AUTH_KEY__|${SNMPV3_AUTH_KEY}|g\" -e \"s|__SNMPV3_PRIV_KEY__|${SNMPV3_PRIV_KEY}|g\" /etc/snmp/snmpd.conf.tpl > /etc/snmp/snmpd.conf"
+        - snmpd
+        - sh -c "grep -q vtysh /etc/shells || echo /usr/bin/vtysh >> /etc/shells"
+        - sh -c "adduser -D -s /usr/bin/vtysh ${CLI_USERNAME} && echo \"${CLI_USERNAME}:${CLI_PASSWORD}\" | chpasswd && addgroup ${CLI_USERNAME} frrvty"
+        - ssh-keygen -A
+        - /usr/sbin/sshd
+
+    r2:
+      kind: linux
+      image: frrouting/frr:latest
+      binds:
+        - configs/r2/daemons:/etc/frr/daemons
+        - configs/r2/frr.conf:/etc/frr/frr.conf
+        - configs/r2/snmpd.conf.tpl:/etc/snmp/snmpd.conf.tpl
+      exec:
+        - sysctl -w net.ipv4.ip_forward=1
+        - apk add --no-cache net-snmp net-snmp-tools openssh
+        - sh -c "sed -e \"s|__SNMPV3_USER__|${SNMPV3_USER}|g\" -e \"s|__SNMPV3_AUTH_KEY__|${SNMPV3_AUTH_KEY}|g\" -e \"s|__SNMPV3_PRIV_KEY__|${SNMPV3_PRIV_KEY}|g\" /etc/snmp/snmpd.conf.tpl > /etc/snmp/snmpd.conf"
+        - snmpd
+        - sh -c "grep -q vtysh /etc/shells || echo /usr/bin/vtysh >> /etc/shells"
+        - sh -c "adduser -D -s /usr/bin/vtysh ${CLI_USERNAME} && echo \"${CLI_USERNAME}:${CLI_PASSWORD}\" | chpasswd && addgroup ${CLI_USERNAME} frrvty"
+        - ssh-keygen -A
+        - /usr/sbin/sshd
+
+    r3:
+      kind: linux
+      image: frrouting/frr:latest
+      binds:
+        - configs/r3/daemons:/etc/frr/daemons
+        - configs/r3/frr.conf:/etc/frr/frr.conf
+        - configs/r3/snmpd.conf.tpl:/etc/snmp/snmpd.conf.tpl
+      exec:
+        - sysctl -w net.ipv4.ip_forward=1
+        - apk add --no-cache net-snmp net-snmp-tools openssh
+        - sh -c "sed -e \"s|__SNMPV3_USER__|${SNMPV3_USER}|g\" -e \"s|__SNMPV3_AUTH_KEY__|${SNMPV3_AUTH_KEY}|g\" -e \"s|__SNMPV3_PRIV_KEY__|${SNMPV3_PRIV_KEY}|g\" /etc/snmp/snmpd.conf.tpl > /etc/snmp/snmpd.conf"
+        - snmpd
+        - sh -c "grep -q vtysh /etc/shells || echo /usr/bin/vtysh >> /etc/shells"
+        - sh -c "adduser -D -s /usr/bin/vtysh ${CLI_USERNAME} && echo \"${CLI_USERNAME}:${CLI_PASSWORD}\" | chpasswd && addgroup ${CLI_USERNAME} frrvty"
+        - ssh-keygen -A
+        - /usr/sbin/sshd
+
+    client:
+      kind: linux
+      image: alpine:latest
+      exec:
+        - apk add --no-cache net-snmp-tools
+        - ip addr add 192.168.1.10/24 dev eth1
+        - ip route replace default via 192.168.1.1
+      cmd: sleep infinity
+
+    server:
+      kind: linux
+      image: alpine:latest
+      exec:
+        - apk add --no-cache net-snmp-tools
+        - ip addr add 192.168.3.10/24 dev eth1
+        - ip route replace default via 192.168.3.1
+      cmd: sleep infinity
+
+  links:
+    - endpoints: ["r1:eth1", "r2:eth1"]
+    - endpoints: ["r2:eth2", "r3:eth1"]
+    - endpoints: ["r1:eth2", "r3:eth2"]
+    - endpoints: ["r1:eth3", "client:eth1"]
+    - endpoints: ["r3:eth3", "server:eth1"]
