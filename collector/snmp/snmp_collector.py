@@ -68,10 +68,26 @@ def _build_usm_user():
     )
 
 
+def _ensure_event_loop() -> None:
+    """Garantit une boucle asyncio dans le thread courant.
+
+    FastMCP exécute les outils synchrones dans un thread de travail (AnyIO) qui n'a
+    pas de boucle d'événements ; pysnmp 6.x (API synchrone au-dessus d'asyncio)
+    échoue alors avec "There is no current event loop in thread 'AnyIO worker thread'".
+    """
+    import asyncio
+
+    try:
+        asyncio.get_event_loop()
+    except RuntimeError:
+        asyncio.set_event_loop(asyncio.new_event_loop())
+
+
 def _real_snmp_get(device_ip: str, oid: str) -> Any:
     """Exécute un GET SNMPv3 (authPriv) réel via pysnmp."""
     oid = _validate_oid(oid)
     usm_user = _build_usm_user()  # ConfigError si identifiants absents
+    _ensure_event_loop()
 
     from pysnmp.hlapi import (
         ContextData,
@@ -110,6 +126,7 @@ def _real_snmp_walk(device_ip: str, oid: str) -> dict[str, str]:
     """
     oid = _validate_oid(oid)
     usm_user = _build_usm_user()  # ConfigError si identifiants absents
+    _ensure_event_loop()
 
     from pysnmp.hlapi import (
         ContextData,
