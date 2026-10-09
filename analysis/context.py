@@ -11,6 +11,8 @@ import re
 from pathlib import Path
 from typing import Any
 
+from collector import config
+
 REPO_ROOT = Path(__file__).resolve().parent.parent
 RESOURCES_DIR = REPO_ROOT / "mcp_server" / "resources"
 RUNBOOKS_DIR = RESOURCES_DIR / "runbooks"
@@ -18,8 +20,21 @@ RUNBOOKS_DIR = RESOURCES_DIR / "runbooks"
 _RUNBOOK_NAME = re.compile(r"^[a-z0-9_]+$")
 
 
+def resource_file(name: str) -> Path:
+    """Fichier de ressource à utiliser : `<nom>.real.json` en mode réel s'il existe, sinon `<nom>.json`.
+
+    Les ressources simulées (fixtures) et celles du laboratoire réel ont des adresses et des
+    router-id différents : on ne les mélange pas.
+    """
+    if not config.is_simulated():
+        real = RESOURCES_DIR / name.replace(".json", ".real.json")
+        if real.is_file():
+            return real
+    return RESOURCES_DIR / name
+
+
 def _load_json(name: str) -> dict[str, Any]:
-    return json.loads((RESOURCES_DIR / name).read_text(encoding="utf-8"))
+    return json.loads(resource_file(name).read_text(encoding="utf-8"))
 
 
 def inventory_devices() -> list[dict[str, Any]]:

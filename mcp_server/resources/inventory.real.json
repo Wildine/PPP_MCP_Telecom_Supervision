@@ -1,0 +1,32 @@
+{
+  "_source": "Inventaire du laboratoire Containerlab réel (lab/containerlab/topology.clab.yml). mgmt_ip = adresse de gestion donnée par `clab inspect` : à mettre à jour si le labo est redéployé avec d'autres adresses.",
+  "devices": [
+    {
+      "name": "R1",
+      "type": "router",
+      "os": "FRRouting (FRR 8.5)",
+      "container": "clab-mcp-noc-lab-r1",
+      "mgmt_ip": "172.20.20.6",
+      "router_id": "10.255.0.1",
+      "asn": 65000
+    },
+    {
+      "name": "R2",
+      "type": "router",
+      "os": "FRRouting (FRR 8.5)",
+      "container": "clab-mcp-noc-lab-r2",
+      "mgmt_ip": "172.20.20.3",
+      "router_id": "10.255.0.2",
+      "asn": 65000
+    },
+    {
+      "name": "R3",
+      "type": "router",
+      "os": "FRRouting (FRR 8.5)",
+      "container": "clab-mcp-noc-lab-r3",
+      "mgmt_ip": "172.20.20.5",
+      "router_id": "10.255.0.3",
+      "asn": 65000
+    }
+  ]
+}

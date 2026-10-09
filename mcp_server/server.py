@@ -52,6 +52,7 @@ from security import audit_log  # noqa: E402
 from security.guard import guard  # noqa: E402
 from security.rbac import security_enabled  # noqa: E402
 
+from analysis.context import resource_file  # noqa: E402
 from analysis.correlation import correlate_alarms as _correlate_alarms  # noqa: E402
 from analysis.incident_report import generate_incident_report as _generate_incident_report  # noqa: E402
 from analysis.rca import analyze_root_cause as _analyze_root_cause  # noqa: E402
@@ -319,7 +320,7 @@ def _read_text(path: Path) -> str:
 @noc_tool
 def get_device_status(name: str) -> dict[str, Any]:
     """Informations de l'inventaire pour un équipement (par son nom, ex. R1)."""
-    inventory = json.loads(_read_text(RESOURCES_DIR / "inventory.json"))
+    inventory = json.loads(_read_text(resource_file("inventory.json")))
     for device in inventory.get("devices", []):
         if str(device.get("name", "")).lower() == name.lower():
             return {"status": "found", "device": device}
@@ -330,14 +331,14 @@ def get_device_status(name: str) -> dict[str, Any]:
 def topology() -> str:
     """Topologie du réseau (équipements et liens)."""
     logger.info("Lecture de la Resource noc://topology")
-    return _read_text(RESOURCES_DIR / "topology.json")
+    return _read_text(resource_file("topology.json"))
 
 
 @mcp.resource("noc://inventory", mime_type="application/json")
 def inventory() -> str:
     """Inventaire des équipements."""
     logger.info("Lecture de la Resource noc://inventory")
-    return _read_text(RESOURCES_DIR / "inventory.json")
+    return _read_text(resource_file("inventory.json"))
 
 
 @mcp.resource("noc://ipam", mime_type="application/json")

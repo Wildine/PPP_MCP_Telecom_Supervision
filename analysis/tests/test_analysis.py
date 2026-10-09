@@ -154,3 +154,14 @@ def test_runbook_helpers_reject_traversal_and_extract_remediation():
     assert read_runbook("../server") is None and read_runbook("inconnu") is None
     text = read_runbook("bgp_flap")
     assert "Remédiation" in text and "lien" in remediation_section(text)
+
+
+def test_real_mode_uses_the_lab_inventory(monkeypatch):
+    from analysis import context
+    from collector import config
+
+    monkeypatch.setattr(config, "COLLECTOR_MODE", "real")
+    devices = {d["name"]: d for d in context.inventory_devices()}
+    assert set(devices) == {"R1", "R2", "R3"}
+    assert all(d.get("mgmt_ip") and d.get("router_id") for d in devices.values())
+    assert context.topology_links()

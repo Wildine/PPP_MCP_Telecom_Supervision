@@ -44,10 +44,19 @@ Attendre 10 à 15 secondes avant de vérifier.
 
 ## Limites connues
 
-- Pas encore de NETCONF, de Syslog distant ni d'export NetFlow.
+- Pas encore de NETCONF ni d'export NetFlow. Pas d'export Syslog natif de FRR : `lab/syslog_bridge.py` écrit dans SYSLOG_FILE_PATH, au format attendu par le collecteur, une ligne à chaque changement d'état réel (interface, voisin OSPF, session BGP) relevé sur les routeurs.
 - La MIB QoS n'existe pas sur FRRouting.
 - Voisins BGP du lab (10.255.0.x, AS 65000) différents des fixtures du collecteur
   (10.0.0.2 AS 65002, 10.0.0.6 AS 65003).
 - Déploiement non testé dans cet environnement : à valider sur la machine qui exécute Containerlab.
 
 Note : les mots de passe ne doivent pas contenir `|` ni `&` (utilisés par la commande sed du déploiement).
+
+## Pont Syslog (pour correlate_alarms en mode réel)
+
+```bash
+python lab/syslog_bridge.py --clear      # laisser tourner dans un terminal, AVANT la panne
+lab/fault-injection/inject_fault.sh link_down
+```
+En mode réel, `analysis/` lit `mcp_server/resources/inventory.real.json` et `topology.real.json`
+(adresses de gestion du labo : à mettre à jour avec `clab inspect` si elles changent).

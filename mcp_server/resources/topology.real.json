@@ -1,0 +1,43 @@
+{
+  "_source": "Liens du laboratoire Containerlab réel (lab/containerlab/topology.clab.yml).",
+  "nodes": [
+    {
+      "id": "R1",
+      "type": "router"
+    },
+    {
+      "id": "R2",
+      "type": "router"
+    },
+    {
+      "id": "R3",
+      "type": "router"
+    }
+  ],
+  "links": [
+    {
+      "source": "R1",
+      "target": "R2",
+      "network": "10.0.12.0/30",
+      "source_interface": "eth1",
+      "target_interface": "eth1",
+      "role": "primaire"
+    },
+    {
+      "source": "R2",
+      "target": "R3",
+      "network": "10.0.23.0/30",
+      "source_interface": "eth2",
+      "target_interface": "eth1",
+      "role": "primaire"
+    },
+    {
+      "source": "R1",
+      "target": "R3",
+      "network": "10.0.13.0/30",
+      "source_interface": "eth2",
+      "target_interface": "eth2",
+      "role": "secours (coût OSPF 100)"
+    }
+  ]
+}
