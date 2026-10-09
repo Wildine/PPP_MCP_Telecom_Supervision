@@ -9,9 +9,13 @@ napalm>=5.0.0         # Optionnel, abstraction CLI plus poussée
 
 # Serveur MCP
 fastmcp>=3.0,<4.0     # FastMCP 3.x exigé par le cahier des charges
+PyJWT>=2.8            # JWT (security/)
 
 # Tests
 pytest>=8.0.0
+
+pysnmp==6.1.4         # SNMP GET/WALK - 6.1.4 garde l'API synchrone (getCmd) utilisée par le collecteur
+pyasn1<0.6.1          # requis par pysnmp 6.1.4
 
 # Remarque : nfdump et tshark ne sont PAS des paquets pip.
 # À installer via le gestionnaire de paquets du système :

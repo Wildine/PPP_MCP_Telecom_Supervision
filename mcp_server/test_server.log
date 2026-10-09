@@ -68,3 +68,44 @@
 2026-10-08 20:20:42,241 - INFO - Outil analyze_root_cause terminé : status=ok
 2026-10-08 20:20:42,248 - INFO - Outil generate_incident_report appelé avec {'incident_id': 'INC-ebbca8cf', 'window_seconds': 120}
 2026-10-08 20:20:42,253 - INFO - Outil generate_incident_report terminé : status=ok
+2026-10-09 04:18:46,188 - INFO - Outil ping_host appelé avec {'host': 'R1', 'count': 4}
+2026-10-09 04:18:46,198 - INFO - Outil ping_host appelé avec {'host': 'R1', 'count': 4}
+2026-10-09 04:18:46,198 - INFO - Outil ping_host terminé : status=error
+2026-10-09 04:18:46,205 - INFO - Outil correlate_alarms appelé avec {'window_seconds': 120, 'devices': None}
+2026-10-09 04:18:46,209 - INFO - Outil correlate_alarms appelé avec {'window_seconds': 120, 'devices': None}
+2026-10-09 04:18:46,212 - INFO - Outil correlate_alarms terminé : status=ok
+2026-10-09 04:18:46,231 - INFO - Outil get_bgp_peers appelé avec {'device_ip': 'R1'}
+2026-10-09 04:18:46,232 - INFO - Outil get_bgp_peers terminé : status=ok
+2026-10-09 04:18:46,237 - INFO - Outil ping_host appelé avec {'host': '10.0.1.1', 'count': 4}
+2026-10-09 04:18:46,237 - INFO - Outil ping_host terminé : status=ok
+2026-10-09 04:18:46,286 - INFO - Outil ping_host appelé avec {'host': '1.1.1.1; rm -rf /', 'count': 4}
+2026-10-09 04:18:46,287 - INFO - Outil ping_host terminé : status=error
+2026-10-09 04:18:46,293 - INFO - Outil detect_anomalies appelé avec {'device_ip': 'R1', 'window': 'last_5_minutes'}
+2026-10-09 04:18:46,293 - INFO - Outil detect_anomalies terminé : status=ok
+2026-10-09 04:18:46,299 - INFO - Outil get_device_status appelé avec {'name': 'r1'}
+2026-10-09 04:18:46,299 - INFO - Outil get_device_status terminé : status=found
+2026-10-09 04:18:46,304 - INFO - Outil get_device_status appelé avec {'name': 'ZZ9'}
+2026-10-09 04:18:46,304 - INFO - Outil get_device_status terminé : status=not_found
+2026-10-09 04:18:46,315 - INFO - Lecture de la Resource noc://topology
+2026-10-09 04:18:46,316 - INFO - Lecture de la Resource noc://runbook/bgp_flap
+2026-10-09 04:18:46,317 - INFO - Lecture de la Resource noc://runbooks
+2026-10-09 04:18:46,321 - INFO - Lecture de la Resource noc://runbook/../server
+2026-10-09 04:18:46,383 - INFO - Lecture de la Resource noc://runbook/server
+2026-10-09 04:18:46,415 - INFO - Lecture de la Resource noc://runbook/inconnu
+2026-10-09 04:18:46,453 - INFO - Outil capture_pcap appelé : device=R1 interface=eth0 durée=10 paquets=200
+2026-10-09 04:18:46,454 - INFO - capture_pcap refusée par l'utilisateur pour R1
+2026-10-09 04:18:46,459 - INFO - Outil capture_pcap appelé : device=R1 interface=eth0 durée=10 paquets=200
+2026-10-09 04:18:46,460 - INFO - Outil capture_pcap terminé : status=ok
+2026-10-09 04:18:46,465 - INFO - Outil capture_pcap appelé : device=R1 interface=eth0 durée=10 paquets=200
+2026-10-09 04:18:46,466 - WARNING - capture_pcap refusée : consentement impossible à obtenir (Elicitation not supported)
+2026-10-09 04:18:46,472 - INFO - Outil interpret_anomalies appelé : device=R1 window=last_5_minutes
+2026-10-09 04:18:46,479 - INFO - Outil interpret_anomalies appelé : device=R1 window=last_5_minutes
+2026-10-09 04:18:46,480 - WARNING - Sampling indisponible : Client does not support sampling
+2026-10-09 04:18:46,485 - INFO - Outil ping_host appelé avec {'host': '10.0.1.1', 'count': 4}
+2026-10-09 04:18:46,485 - INFO - Outil ping_host terminé : status=ok
+2026-10-09 04:18:46,491 - INFO - Outil correlate_alarms appelé avec {'window_seconds': 120, 'devices': None}
+2026-10-09 04:18:46,494 - INFO - Outil correlate_alarms terminé : status=ok
+2026-10-09 04:18:46,500 - INFO - Outil analyze_root_cause appelé avec {'incident_id': 'INC-ebbca8cf', 'window_seconds': 120}
+2026-10-09 04:18:46,501 - INFO - Outil analyze_root_cause terminé : status=ok
+2026-10-09 04:18:46,506 - INFO - Outil generate_incident_report appelé avec {'incident_id': 'INC-ebbca8cf', 'window_seconds': 120}
+2026-10-09 04:18:46,508 - INFO - Outil generate_incident_report terminé : status=ok

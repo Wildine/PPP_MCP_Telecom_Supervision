@@ -3,3 +3,8 @@ __pycache__/
 .pytest_cache/
 .venv/
 *.pcap
+
+audit.log
+*audit*.log
+
+security/tests/server_test.log

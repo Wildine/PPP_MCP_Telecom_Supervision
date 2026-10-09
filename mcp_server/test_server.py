@@ -10,6 +10,8 @@ import sys
 from pathlib import Path
 
 os.environ["COLLECTOR_MODE"] = "simulated"
+os.environ["SECURITY_ENABLED"] = "false"  # la sécurité est testée dans security/tests
+os.environ.setdefault("AUDIT_LOG_FILE", str(Path(__file__).resolve().parent / "test_audit.log"))
 os.environ.setdefault("MCP_LOG_FILE", str(Path(__file__).resolve().parent / "test_server.log"))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 

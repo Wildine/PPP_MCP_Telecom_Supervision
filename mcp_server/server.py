@@ -10,7 +10,10 @@ reste dans le collecteur. Ce fichier ne fait que :
   - proposer des Prompts de diagnostic et de rapport ;
   - utiliser Elicitation (consentement avant capture de paquets) et
     Sampling (qualification d'alertes déjà calculées) ;
-  - journaliser chaque appel.
+  - journaliser chaque appel ;
+  - appliquer la sécurité (package `security/`) : jeton JWT et rôle minimum par
+    outil (RBAC), journal d'audit chaîné, neutralisation des injections de prompt
+    dans les réponses. Voir docs/security.md.
 
 Choix de sécurité :
   - le paramètre `mode` (simulé/réel) n'est JAMAIS exposé au modèle : il est
@@ -44,6 +47,10 @@ if str(REPO_ROOT) not in sys.path:
 
 from fastmcp import Context, FastMCP  # noqa: E402
 from fastmcp.server.elicitation import AcceptedElicitation  # noqa: E402
+
+from security import audit_log  # noqa: E402
+from security.guard import guard  # noqa: E402
+from security.rbac import security_enabled  # noqa: E402
 
 from analysis.correlation import correlate_alarms as _correlate_alarms  # noqa: E402
 from analysis.incident_report import generate_incident_report as _generate_incident_report  # noqa: E402
@@ -104,10 +111,12 @@ READ_ONLY = {
 def noc_tool(fn):
     """Enregistre une fonction comme outil MCP en lecture seule et journalise l'appel."""
 
+    guarded = guard(fn)  # JWT + rôle + audit + neutralisation (security/)
+
     @functools.wraps(fn)
     def wrapper(*args, **kwargs):
         logger.info("Outil %s appelé avec %s", fn.__name__, kwargs)
-        result = fn(*args, **kwargs)
+        result = guarded(*args, **kwargs)
         status = result.get("status") if isinstance(result, dict) else "?"
         logger.info("Outil %s terminé : status=%s", fn.__name__, status)
         return result
@@ -202,6 +211,7 @@ def get_recent_syslog(device_ip: str | None = None, limit: int = 50) -> dict[str
 
 
 @mcp.tool(annotations=READ_ONLY)
+@guard
 async def capture_pcap(
     device_ip: str,
     ctx: Context,
@@ -223,20 +233,24 @@ async def capture_pcap(
         answer = await ctx.elicit(message, response_type=None)
     except Exception as exc:  # noqa: BLE001 - client sans Elicitation : on refuse par défaut
         logger.warning("capture_pcap refusée : consentement impossible à obtenir (%s)", exc)
+        audit_log.log_action("systeme", "capture_pcap", {"device_ip": device_ip}, "REFUSEE_HUMAIN", "consentement impossible à obtenir")
         return make_error_response(
             "pcap", device_ip,
             "Capture refusée : le client MCP ne permet pas de demander le consentement de l'utilisateur.",
         )
     if not isinstance(answer, AcceptedElicitation):
         logger.info("capture_pcap refusée par l'utilisateur pour %s", device_ip)
+        audit_log.log_action("systeme", "capture_pcap", {"device_ip": device_ip}, "REFUSEE_HUMAIN", "refus de l'utilisateur")
         return make_error_response("pcap", device_ip, "Capture refusée par l'utilisateur.")
 
+    audit_log.log_action("systeme", "capture_pcap", {"device_ip": device_ip, "interface": interface}, "VALIDEE_HUMAIN", "consentement accordé")
     result = _capture_pcap(device_ip, interface, duration_seconds, max_packets)
     logger.info("Outil capture_pcap terminé : status=%s", result.get("status"))
     return result
 
 
 @mcp.tool(annotations=READ_ONLY)
+@guard
 async def interpret_anomalies(
     device_ip: str, ctx: Context, window: str = "last_5_minutes"
 ) -> dict[str, Any]:
@@ -408,10 +422,12 @@ Ne mentionne aucun fait qui ne figure pas dans les sorties d'outils. Marque clai
 
 if __name__ == "__main__":
     logger.info("NOC MCP Server démarré (mode collecteur : %s)", os.environ.get("COLLECTOR_MODE", "simulated"))
+    if not security_enabled():
+        logger.warning("SECURITY_ENABLED=false : RBAC/JWT désactivés. À ne pas utiliser en démonstration ni en production.")
     transport = os.environ.get("MCP_TRANSPORT", "stdio").lower()
     if transport in ("http", "streamable-http"):
-        # Par défaut on n'écoute que sur la machine locale : pas d'authentification
-        # côté serveur tant que Keycloak (bloc sécurité) n'est pas branché.
+        # Par défaut on n'écoute que sur la machine locale. L'authentification est
+        # assurée par le JWT (en-tête Authorization: Bearer), voir security/.
         mcp.run(
             transport="http",
             host=os.environ.get("MCP_HOST", "127.0.0.1"),

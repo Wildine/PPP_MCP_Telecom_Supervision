@@ -11,7 +11,7 @@ réseau émulé (Containerlab + FRRouting).
 ├── collector/           # Bloc 2 : backend de collecte Python (terminé, mode simulé)
 ├── mcp_server/          # Bloc 3 : serveur FastMCP, outils, resources (topologie, inventaire, IPAM, runbooks)
 ├── analysis/            # Bloc 4 : corrélation, RCA, rapports d'incident
-├── security/            # Bloc 5 : Keycloak (RBAC/JWT), validation humaine, audit
+├── security/            # Bloc 5 : JWT/RBAC, anti-injection, audit (Keycloak : voir docs/security.md)
 ├── docs/                # architecture.md, collector.md
 ├── Dockerfile
 ├── docker-compose.yml
@@ -26,5 +26,7 @@ pip install -r requirements.txt
 cp .env.example .env
 python -m pytest collector/tests -q
 ```
+
+Sécurité (JWT/RBAC, audit, anti-injection) : [docs/security.md](docs/security.md). Tests : `python -m pytest security -q`.
 
 Documentation du collecteur (fonctions, mode simulé/réel, sécurité) : [docs/collector.md](docs/collector.md).

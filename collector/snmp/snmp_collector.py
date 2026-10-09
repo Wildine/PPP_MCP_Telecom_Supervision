@@ -11,7 +11,7 @@ l'environnement (voir config.get_snmpv3_credentials) ; s'ils manquent,
 aucune requête n'est envoyée.
 
 Pré-requis pour le mode réel :
-    pip install pysnmp
+    pip install "pysnmp==6.1.4" "pyasn1<0.6.1"
 """
 
 import re
@@ -89,7 +89,9 @@ def _real_snmp_get(device_ip: str, oid: str) -> Any:
         ContextData(),
         ObjectType(ObjectIdentity(oid)),
     )
-    error_indication, error_status, error_index, var_binds = next(iterator)
+    # pysnmp 6.1.4 : getCmd renvoie directement un tuple ; les autres versions renvoient un itérateur.
+    result = iterator if isinstance(iterator, tuple) else next(iterator)
+    error_indication, error_status, error_index, var_binds = result
 
     if error_indication:
         raise RuntimeError(str(error_indication))
@@ -115,11 +117,15 @@ def _real_snmp_walk(device_ip: str, oid: str) -> dict[str, str]:
         ObjectType,
         SnmpEngine,
         UdpTransportTarget,
-        nextCmd,
     )
 
+    try:
+        from pysnmp.hlapi import walkCmd as _walk_cmd
+    except ImportError:
+        from pysnmp.hlapi import nextCmd as _walk_cmd
+
     results: dict[str, str] = {}
-    for error_indication, error_status, error_index, var_binds in nextCmd(
+    for error_indication, error_status, error_index, var_binds in _walk_cmd(
         SnmpEngine(),
         usm_user,
         UdpTransportTarget((device_ip, config.SNMP_PORT), timeout=config.SNMP_TIMEOUT, retries=config.SNMP_RETRIES),
